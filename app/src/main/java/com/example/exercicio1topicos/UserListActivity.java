@@ -41,6 +41,6 @@ public class UserListActivity extends ListActivity  {
     private void initializeComponents() {
         this.bundle = getIntent().getExtras();
         this.userList = (ArrayList<User>) bundle.getSerializable("USER_LIST");
-        this.lvUserList = findViewById(R.id.lv_user_list);
+        this.lvUserList = findViewById(android.R.id.list);
     }
 }

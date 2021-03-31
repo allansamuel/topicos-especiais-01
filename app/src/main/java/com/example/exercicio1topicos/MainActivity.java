@@ -12,6 +12,8 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import com.github.rtoshiro.util.format.SimpleMaskFormatter;
+import com.github.rtoshiro.util.format.text.MaskTextWatcher;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.mobsandgeeks.saripaar.ValidationError;
@@ -26,6 +28,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity implements Validator.ValidationListener {
 
@@ -69,6 +72,8 @@ public class MainActivity extends AppCompatActivity implements Validator.Validat
 
         initializeComponents();
 
+        applyInputMasks();
+
         this.rgGender.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
@@ -79,6 +84,7 @@ public class MainActivity extends AppCompatActivity implements Validator.Validat
         this.btRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                removeErrors();
                 validator.validate();
             }
         });
@@ -131,6 +137,23 @@ public class MainActivity extends AppCompatActivity implements Validator.Validat
         this.userList = new ArrayList<>();
         this.validator = new Validator(this);
         validator.setValidationListener(this);
+    }
+
+    private void applyInputMasks() {
+        SimpleMaskFormatter dateFormatter = new SimpleMaskFormatter("NN/NN/NNNN");
+        MaskTextWatcher phoneTextWatcher = new MaskTextWatcher(etBirthday, dateFormatter);
+        etBirthday.addTextChangedListener(phoneTextWatcher);
+
+        SimpleMaskFormatter phoneFormatter = new SimpleMaskFormatter("(NN)NNNNNNNNN");
+        MaskTextWatcher dateTextWatcher = new MaskTextWatcher(etPhone, phoneFormatter);
+        etPhone.addTextChangedListener(dateTextWatcher);
+    }
+
+    private void removeErrors(){
+        txtName.setError("");
+        txtEmail.setError("");
+        txtPhone.setError("");
+        txtBirthday.setError("");
     }
 
     @Override

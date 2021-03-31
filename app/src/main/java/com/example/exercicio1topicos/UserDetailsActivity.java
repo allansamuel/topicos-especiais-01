@@ -29,13 +29,13 @@ public class UserDetailsActivity extends AppCompatActivity {
     private String formatUserDetails() {
         String hobbies = "";
         for(String item:user.getHobbies()){
-           hobbies += item + ",'\'";
+           hobbies += item + ",\n";
         }
-        return user.getName() + ",'\'" +
-               user.getEmail() + ",'\'" +
-               user.getPhone() + ",'\'" +
-               user.getBirthday() + ",'\'" +
-               user.getGender() + ",'\'" +
+        return user.getName() + ",\n" +
+               user.getEmail() + ",\n" +
+               user.getPhone() + ",\n" +
+               user.getBirthday() + ",\n" +
+               user.getGender() + ",\n" +
                hobbies;
     }
 }
