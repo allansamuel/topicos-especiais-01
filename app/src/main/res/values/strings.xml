@@ -1,4 +1,5 @@
 <resources>
+    <string name="date_formatter">dd/MM/yyyy</string>
     <string name="date_mask">NN/NN/NNNN</string>
     <string name="phone_mask">(NN)NNNNNNNNN</string>
     <string name="app_name">Exercicio1 Topicos</string>

@@ -28,7 +28,7 @@ public class UserDetailsActivity extends AppCompatActivity {
     }
 
     private String formatUserDetails() {
-        SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat dateFormatter = new SimpleDateFormat(getString(R.string.date_formatter));
         String hobbies = "";
         for(String item:user.getHobbies()){
            hobbies += ",\n" + item;

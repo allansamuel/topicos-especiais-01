@@ -166,7 +166,7 @@ public class MainActivity extends AppCompatActivity implements Validator.Validat
         user.setGender(rbSelectedGender.getText().toString());
         user.setHobbies(getCheckedHobbies());
         try {
-            SimpleDateFormat df = new SimpleDateFormat("dd/MM/YYYY");
+            SimpleDateFormat df = new SimpleDateFormat(getString(R.string.date_formatter));
             user.setBirthday(df.parse(etBirthday.getText().toString()));
         } catch (ParseException e) {
             e.printStackTrace();
