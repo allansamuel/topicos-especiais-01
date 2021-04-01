@@ -20,7 +20,7 @@
             android:id="@+id/et_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Nome" />
+            android:hint="@string/name" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -37,7 +37,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:hint="E-mail"
+            android:hint="@string/email"
             android:inputType="textEmailAddress" />
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -55,7 +55,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:hint="Telefone"
+            android:hint="@string/phone"
             android:inputType="phone" />
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -73,7 +73,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:hint="Data de nascimento"
+            android:hint="@string/birthday"
             android:inputType="date" />
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -95,32 +95,33 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Gênero" />
+                android:text="@string/gender" />
 
             <RadioGroup
                 android:id="@+id/rg_gender"
                 android:layout_width="204dp"
                 android:layout_height="match_parent"
-                android:clickable="true">
+                android:clickable="false"
+                android:focusableInTouchMode="false">
 
                 <RadioButton
                     android:id="@+id/rb_male"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:checked="true"
-                    android:text="Masculino" />
+                    android:text="@string/male" />
 
                 <RadioButton
                     android:id="@+id/rb_female"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Feminino" />
+                    android:text="@string/female" />
 
                 <RadioButton
                     android:id="@+id/rb_other"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Outro" />
+                    android:text="@string/other" />
             </RadioGroup>
         </LinearLayout>
 
@@ -134,25 +135,25 @@
                 android:id="@+id/textView3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Interesses" />
+                android:text="@string/interests" />
 
             <CheckBox
                 android:id="@+id/cb_music"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Música" />
+                android:text="@string/music" />
 
             <CheckBox
                 android:id="@+id/cb_movies"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Filmes" />
+                android:text="@string/movies" />
 
             <CheckBox
                 android:id="@+id/cb_videogames"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Jogos" />
+                android:text="@string/videogames" />
         </LinearLayout>
 
     </LinearLayout>
@@ -168,18 +169,20 @@
 
         <Button
             android:id="@+id/bt_register"
+            style="@style/Widget.AppCompat.Button.Small"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="10dp"
             android:layout_weight="1"
-            android:text="Cadastrar" />
+            android:text="@string/register" />
 
         <Button
             android:id="@+id/bt_send"
+            style="@style/Widget.AppCompat.Button.Colored"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:layout_weight="1"
-            android:text="Enviar" />
+            android:text="@string/send" />
     </LinearLayout>
 </LinearLayout>

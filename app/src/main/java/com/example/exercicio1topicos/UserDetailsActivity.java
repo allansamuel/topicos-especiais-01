@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 public class UserDetailsActivity extends AppCompatActivity {
@@ -27,15 +28,16 @@ public class UserDetailsActivity extends AppCompatActivity {
     }
 
     private String formatUserDetails() {
+        SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy");
         String hobbies = "";
         for(String item:user.getHobbies()){
-           hobbies += item + ",\n";
+           hobbies += ",\n" + item;
         }
         return user.getName() + ",\n" +
                user.getEmail() + ",\n" +
                user.getPhone() + ",\n" +
-               user.getBirthday() + ",\n" +
-               user.getGender() + ",\n" +
+               dateFormatter.format(user.getBirthday()) + ",\n" +
+               user.getGender() +
                hobbies;
     }
 }

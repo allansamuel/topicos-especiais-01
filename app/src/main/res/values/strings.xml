@@ -1,3 +1,24 @@
 <resources>
+    <string name="date_mask">NN/NN/NNNN</string>
+    <string name="phone_mask">(NN)NNNNNNNNN</string>
     <string name="app_name">Exercicio1 Topicos</string>
+    <string name="name">Nome</string>
+    <string name="email">Email</string>
+    <string name="phone">Telefone</string>
+    <string name="birthday">Data de nascimento</string>
+    <string name="gender">Gênero</string>
+    <string name="male">Masculino</string>
+    <string name="female">Feminino</string>
+    <string name="other">Outro</string>
+    <string name="interests">Interesses</string>
+    <string name="music">Música</string>
+    <string name="movies">Filmes</string>
+    <string name="videogames">Jogos</string>
+    <string name="register">Cadastrar</string>
+    <string name="send">Enviar</string>
+    <string name="error_required_field">Campo obrigatório.</string>
+    <string name="error_name_field">O nome deve ter entre 3 e 20 caracteres.</string>
+    <string name="error_email_field">E-mail inválido.</string>
+    <string name="error_phone_field">O telefone deve ter 13 caracteres.</string>
+    <string name="error_birthday_field">A data de nascimento deve ter 10 caracteres.</string>
 </resources>

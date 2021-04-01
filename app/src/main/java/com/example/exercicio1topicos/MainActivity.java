@@ -1,7 +1,9 @@
 package com.example.exercicio1topicos;
 
+import androidx.annotation.StringRes;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -37,20 +39,20 @@ public class MainActivity extends AppCompatActivity implements Validator.Validat
     private TextInputLayout txtPhone;
     private TextInputLayout txtBirthday;
 
-    @NotEmpty(message = "Campo obrigatório.")
-    @Length(min = 3, max = 20, message = "O nome deve ter entre 3 e 20 caracteres.")
+    @NotEmpty(messageResId = R.string.error_required_field)
+    @Length(min = 3, max = 20, messageResId = R.string.error_name_field)
     private TextInputEditText etName;
 
-    @NotEmpty(message = "Campo obrigatório.")
-    @Email(message = "E-mail inválido.")
+    @NotEmpty(messageResId = R.string.error_required_field)
+    @Email(messageResId = R.string.error_email_field)
     private TextInputEditText etEmail;
 
-    @NotEmpty(message = "Campo obrigatório.")
-    @Length(min = 13, max = 13, message = "O telefone deve ter 13 caracteres.")
+    @NotEmpty(messageResId = R.string.error_required_field)
+    @Length(min = 13, max = 13, messageResId = R.string.error_phone_field)
     private TextInputEditText etPhone;
 
-    @NotEmpty(message = "Campo obrigatório.")
-    @Length(min = 10, max = 10, message = "A data de nascimento deve ter 10 caracteres.")
+    @NotEmpty(messageResId = R.string.error_required_field)
+    @Length(min = 10, max = 10, messageResId = R.string.error_birthday_field)
     private TextInputEditText etBirthday;
 
     private RadioGroup rgGender;
@@ -140,11 +142,11 @@ public class MainActivity extends AppCompatActivity implements Validator.Validat
     }
 
     private void applyInputMasks() {
-        SimpleMaskFormatter dateFormatter = new SimpleMaskFormatter("NN/NN/NNNN");
+        SimpleMaskFormatter dateFormatter = new SimpleMaskFormatter(getString(R.string.date_mask));
         MaskTextWatcher phoneTextWatcher = new MaskTextWatcher(etBirthday, dateFormatter);
         etBirthday.addTextChangedListener(phoneTextWatcher);
 
-        SimpleMaskFormatter phoneFormatter = new SimpleMaskFormatter("(NN)NNNNNNNNN");
+        SimpleMaskFormatter phoneFormatter = new SimpleMaskFormatter(getString(R.string.phone_mask));
         MaskTextWatcher dateTextWatcher = new MaskTextWatcher(etPhone, phoneFormatter);
         etPhone.addTextChangedListener(dateTextWatcher);
     }
