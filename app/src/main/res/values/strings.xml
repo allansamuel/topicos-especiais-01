@@ -22,4 +22,13 @@
     <string name="error_email_field">E-mail inválido.</string>
     <string name="error_phone_field">O telefone deve ter 13 caracteres.</string>
     <string name="error_birthday_field">A data de nascimento deve ter 10 caracteres.</string>
+    <string name="title_activity_main2">MainActivity</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
 </resources>
