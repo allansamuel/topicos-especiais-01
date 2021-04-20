@@ -1,10 +1,13 @@
 package com.example.exercicio1topicos;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
+
+import androidx.fragment.app.Fragment;
+
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.RadioButton;
@@ -26,7 +29,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CustomerFormActivity extends AppCompatActivity implements Validator.ValidationListener {
+public class CustomerFormFragment extends Fragment implements Validator.ValidationListener {
 
     private TextInputLayout txtName;
     private TextInputLayout txtEmail;
@@ -62,9 +65,8 @@ public class CustomerFormActivity extends AppCompatActivity implements Validator
     private Validator validator;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_customer_form);
 
         initializeComponents();
 
@@ -73,7 +75,7 @@ public class CustomerFormActivity extends AppCompatActivity implements Validator
         this.rgGender.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
-                rbSelectedGender = findViewById(checkedId);
+                rbSelectedGender = getView().findViewById(checkedId);
             }
         });
 
@@ -84,19 +86,12 @@ public class CustomerFormActivity extends AppCompatActivity implements Validator
                 validator.validate();
             }
         });
+    }
 
-        this.btSend.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(userList.size() > 0){
-                    Intent intent = new Intent(getApplicationContext(), UserListActivity.class);
-                    Bundle bundle = new Bundle();
-                    bundle.putSerializable("USER_LIST", userList);
-                    intent.putExtras(bundle);
-                    startActivity(intent);
-                }
-            }
-        });
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_customer_form, container, false);
     }
 
     private ArrayList<String> getCheckedHobbies() {
@@ -114,21 +109,21 @@ public class CustomerFormActivity extends AppCompatActivity implements Validator
     }
 
     private void initializeComponents() {
-        this.txtName = findViewById(R.id.txt_name);
-        this.txtEmail = findViewById(R.id.txt_email);
-        this.txtPhone = findViewById(R.id.txt_phone);
-        this.txtBirthday = findViewById(R.id.txt_birthday);
-        this.etName = findViewById(R.id.et_name);
-        this.etEmail = findViewById(R.id.et_email);
-        this.etPhone = findViewById(R.id.et_phone);
-        this.etBirthday = findViewById(R.id.et_birthday);
-        this.rgGender = findViewById(R.id.rg_gender);
-        this.rbSelectedGender = findViewById(R.id.rb_male);
-        this.cbMusic = findViewById(R.id.cb_music);
-        this.cbMovies = findViewById(R.id.cb_movies);
-        this.cbVideogames = findViewById(R.id.cb_videogames);
-        this.btRegister = findViewById(R.id.bt_register);
-        this.btSend = findViewById(R.id.bt_send);
+        this.txtName = getView().findViewById(R.id.txt_name);
+        this.txtEmail = getView().findViewById(R.id.txt_email);
+        this.txtPhone = getView().findViewById(R.id.txt_phone);
+        this.txtBirthday = getView().findViewById(R.id.txt_birthday);
+        this.etName = getView().findViewById(R.id.et_name);
+        this.etEmail = getView().findViewById(R.id.et_email);
+        this.etPhone = getView().findViewById(R.id.et_phone);
+        this.etBirthday = getView().findViewById(R.id.et_birthday);
+        this.rgGender = getView().findViewById(R.id.rg_gender);
+        this.rbSelectedGender = getView().findViewById(R.id.rb_male);
+        this.cbMusic = getView().findViewById(R.id.cb_music);
+        this.cbMovies = getView().findViewById(R.id.cb_movies);
+        this.cbVideogames = getView().findViewById(R.id.cb_videogames);
+        this.btRegister = getView().findViewById(R.id.bt_register);
+        this.btSend = getView().findViewById(R.id.bt_send);
         this.user = new User();
         this.userList = new ArrayList<>();
         this.validator = new Validator(this);
@@ -166,7 +161,7 @@ public class CustomerFormActivity extends AppCompatActivity implements Validator
             e.printStackTrace();
         }
 
-        Toast.makeText(getApplicationContext(),user.toString(),Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(), user.toString(), Toast.LENGTH_SHORT).show();
         userList.add(user);
     }
 
@@ -174,7 +169,7 @@ public class CustomerFormActivity extends AppCompatActivity implements Validator
     public void onValidationFailed(List<ValidationError> errors) {
         for(ValidationError e:errors) {
             View view = e.getView();
-            String errorMessage = e.getCollatedErrorMessage(this);
+            String errorMessage = e.getCollatedErrorMessage(getContext());
 
             if(view instanceof TextInputEditText){
                 switch (view.getId()){
