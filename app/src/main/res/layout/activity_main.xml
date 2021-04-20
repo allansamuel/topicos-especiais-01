@@ -31,8 +31,9 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:drawableLeft="?android:attr/actionModeWebSearchDrawable"
-                android:hint="Pesquisar clientes" />
+                android:drawableStart="?android:attr/actionModeWebSearchDrawable"
+                android:drawablePadding="8dp"
+                android:hint="@string/searchCustomers" />
         </com.google.android.material.textfield.TextInputLayout>
 
     </com.google.android.material.appbar.AppBarLayout>
@@ -43,15 +44,15 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="32dp"
         android:layout_marginBottom="32dp"
+        android:contentDescription="@string/addCustomers"
         android:elevation="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:maxImageSize="36dp"
         app:srcCompat="@drawable/add_white_36dp" />
 
-    <fragment
-        android:id="@+id/fragment"
-        android:name="com.example.exercicio1topicos.FirstFragment"
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fragment_container_view"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"

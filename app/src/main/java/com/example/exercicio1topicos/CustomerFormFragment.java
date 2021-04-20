@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
@@ -58,7 +59,6 @@ public class CustomerFormFragment extends Fragment implements Validator.Validati
     private CheckBox cbMovies;
     private CheckBox cbVideogames;
     private Button btRegister;
-    private Button btSend;
     private User user;
     private ArrayList<User> userList;
 
@@ -67,10 +67,14 @@ public class CustomerFormFragment extends Fragment implements Validator.Validati
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+    }
 
-        initializeComponents();
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_customer_form, container, false);
 
-        applyInputMasks();
+        initializeComponents(view);
 
         this.rgGender.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -86,12 +90,8 @@ public class CustomerFormFragment extends Fragment implements Validator.Validati
                 validator.validate();
             }
         });
-    }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_customer_form, container, false);
+        return view;
     }
 
     private ArrayList<String> getCheckedHobbies() {
@@ -108,26 +108,26 @@ public class CustomerFormFragment extends Fragment implements Validator.Validati
         return checkedHobbies;
     }
 
-    private void initializeComponents() {
-        this.txtName = getView().findViewById(R.id.txt_name);
-        this.txtEmail = getView().findViewById(R.id.txt_email);
-        this.txtPhone = getView().findViewById(R.id.txt_phone);
-        this.txtBirthday = getView().findViewById(R.id.txt_birthday);
-        this.etName = getView().findViewById(R.id.et_name);
-        this.etEmail = getView().findViewById(R.id.et_email);
-        this.etPhone = getView().findViewById(R.id.et_phone);
-        this.etBirthday = getView().findViewById(R.id.et_birthday);
-        this.rgGender = getView().findViewById(R.id.rg_gender);
-        this.rbSelectedGender = getView().findViewById(R.id.rb_male);
-        this.cbMusic = getView().findViewById(R.id.cb_music);
-        this.cbMovies = getView().findViewById(R.id.cb_movies);
-        this.cbVideogames = getView().findViewById(R.id.cb_videogames);
-        this.btRegister = getView().findViewById(R.id.bt_register);
-        this.btSend = getView().findViewById(R.id.bt_send);
-        this.user = new User();
-        this.userList = new ArrayList<>();
-        this.validator = new Validator(this);
+    private void initializeComponents(View view) {
+        txtName = (TextInputLayout) view.findViewById(R.id.txt_name);
+        txtEmail = (TextInputLayout) view.findViewById(R.id.txt_email);
+        txtPhone = (TextInputLayout) view.findViewById(R.id.txt_phone);
+        txtBirthday = (TextInputLayout) view.findViewById(R.id.txt_birthday);
+        etName = (TextInputEditText) view.findViewById(R.id.et_name);
+        etEmail = (TextInputEditText) view.findViewById(R.id.et_email);
+        etPhone = (TextInputEditText) view.findViewById(R.id.et_phone);
+        etBirthday = (TextInputEditText) view.findViewById(R.id.et_birthday);
+        rgGender = (RadioGroup) view.findViewById(R.id.rg_gender);
+        rbSelectedGender = (RadioButton) view.findViewById(R.id.rb_male);
+        cbMusic = (CheckBox) view.findViewById(R.id.cb_music);
+        cbMovies = (CheckBox) view.findViewById(R.id.cb_movies);
+        cbVideogames = (CheckBox) view.findViewById(R.id.cb_videogames);
+        btRegister = (Button) view.findViewById(R.id.bt_register);
+        user = new User();
+        userList = new ArrayList<>();
+        validator = new Validator(this);
         validator.setValidationListener(this);
+        applyInputMasks();
     }
 
     private void applyInputMasks() {
