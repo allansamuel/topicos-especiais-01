@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.github.rtoshiro.util.format.SimpleMaskFormatter;
 import com.github.rtoshiro.util.format.text.MaskTextWatcher;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.mobsandgeeks.saripaar.ValidationError;
@@ -161,8 +162,9 @@ public class CustomerFormFragment extends Fragment implements Validator.Validati
             e.printStackTrace();
         }
 
-        Toast.makeText(getContext(), user.toString(), Toast.LENGTH_SHORT).show();
         userList.add(user);
+
+        Snackbar.make(getView(), R.string.customer_register_success , Snackbar.LENGTH_LONG).show();
     }
 
     @Override

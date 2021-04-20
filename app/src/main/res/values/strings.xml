@@ -17,6 +17,7 @@
     <string name="videogames">Jogos</string>
     <string name="register">Cadastrar</string>
     <string name="send">Enviar</string>
+    <string name="customer_register_success">O cliente foi cadastrado com sucesso.</string>
     <string name="error_required_field">Campo obrigatório.</string>
     <string name="error_name_field">O nome deve ter entre 3 e 20 caracteres.</string>
     <string name="error_email_field">E-mail inválido.</string>
@@ -24,4 +25,5 @@
     <string name="error_birthday_field">A data de nascimento deve ter 10 caracteres.</string>
     <string name="addCustomers">Cadastrar cliente</string>
     <string name="searchCustomers">Pesquisar clientes.</string>
+    <string name="title_activity_main2">Tela inicial</string>
 </resources>
