@@ -17,17 +17,9 @@ public class MainActivity extends AppCompatActivity {
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
                     .setReorderingAllowed(true)
-                    .add(R.id.fragment_container_view, CustomerFormFragment.class, null)
+                    .add(R.id.fragment_container_view, CustomerListFragment.class, null)
                     .commit();
         }
         setContentView(R.layout.activity_main);
-
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG).show();
-            }
-        });
     }
 }

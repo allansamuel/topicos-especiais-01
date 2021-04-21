@@ -33,23 +33,11 @@
                 android:layout_height="match_parent"
                 android:drawableStart="?android:attr/actionModeWebSearchDrawable"
                 android:drawablePadding="8dp"
-                android:hint="@string/searchCustomers" />
+                android:hint="@string/searchCustomers"
+                android:singleLine="true" />
         </com.google.android.material.textfield.TextInputLayout>
 
     </com.google.android.material.appbar.AppBarLayout>
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="32dp"
-        android:layout_marginBottom="32dp"
-        android:contentDescription="@string/addCustomers"
-        android:elevation="20dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:maxImageSize="36dp"
-        app:srcCompat="@drawable/add_white_36dp" />
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragment_container_view"
