@@ -50,14 +50,10 @@ public class CustomerFormActivity extends AppCompatActivity implements Validator
     @Length(min = 10, max = 10, messageResId = R.string.error_birthday_field)
     private TextInputEditText etBirthday;
 
-    private RadioGroup rgGender;
-    private RadioButton rbSelectedGender;
-    private CheckBox cbMusic;
-    private CheckBox cbMovies;
-    private CheckBox cbVideogames;
+    private RadioGroup rgBlackList;
+    private RadioButton rbSelectedBlackList;
     private Button btRegister;
-    private Customer user;
-    private ArrayList<Customer> userList;
+    private Customer customer;
 
     private Validator validator;
 
@@ -68,10 +64,10 @@ public class CustomerFormActivity extends AppCompatActivity implements Validator
 
         initializeComponents();
 
-        this.rgGender.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+        this.rgBlackList.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
-                rbSelectedGender = findViewById(checkedId);
+                rbSelectedBlackList = findViewById(checkedId);
             }
         });
 
@@ -84,20 +80,6 @@ public class CustomerFormActivity extends AppCompatActivity implements Validator
         });
     }
 
-    private ArrayList<String> getCheckedHobbies() {
-        ArrayList<String> checkedHobbies = new ArrayList<>();
-        if(cbMusic.isChecked()){
-            checkedHobbies.add(cbMusic.getText().toString());
-        }
-        if(cbMovies.isChecked()){
-            checkedHobbies.add(cbMovies.getText().toString());
-        }
-        if(cbVideogames.isChecked()){
-            checkedHobbies.add(cbVideogames.getText().toString());
-        }
-        return checkedHobbies;
-    }
-
     private void initializeComponents() {
         txtName = findViewById(R.id.txt_name);
         txtEmail = findViewById(R.id.txt_email);
@@ -107,14 +89,11 @@ public class CustomerFormActivity extends AppCompatActivity implements Validator
         etEmail = findViewById(R.id.et_email);
         etPhone = findViewById(R.id.et_phone);
         etBirthday = findViewById(R.id.et_birthday);
-        rgGender = findViewById(R.id.rg_gender);
-        rbSelectedGender = findViewById(R.id.rb_male);
-        cbMusic = findViewById(R.id.cb_music);
-        cbMovies = findViewById(R.id.cb_movies);
-        cbVideogames = findViewById(R.id.cb_videogames);
+        rgBlackList = findViewById(R.id.rg_gender);
+        rbSelectedBlackList = findViewById(R.id.rb_male);
         btRegister = findViewById(R.id.bt_register);
-        user = new Customer();
-        userList = new ArrayList<>();
+        customer = new Customer();
+
         validator = new Validator(this);
         validator.setValidationListener(this);
         applyInputMasks();
@@ -139,14 +118,19 @@ public class CustomerFormActivity extends AppCompatActivity implements Validator
 
     @Override
     public void onValidationSucceeded() {
-        user.setName(etName.getText().toString());
-        user.setEmail(etEmail.getText().toString());
-        user.setPhone(etPhone.getText().toString());
-        user.setGender(rbSelectedGender.getText().toString());
-        user.setHobbies(getCheckedHobbies());
+        customer.setName(etName.getText().toString());
+        customer.setEmail(etEmail.getText().toString());
+        customer.setPhoneNumber(etPhone.getText().toString());
+
+        if(rbSelectedBlackList.getText().toString().equals(R.string.yes)) {
+            customer.setBlackList(true);
+        } else {
+            customer.setBlackList(false);
+        }
+
         try {
             SimpleDateFormat df = new SimpleDateFormat(getString(R.string.date_formatter));
-            user.setBirthday(df.parse(etBirthday.getText().toString()));
+            customer.setBirthday(df.parse(etBirthday.getText().toString()));
         } catch (ParseException e) {
             e.printStackTrace();
         }

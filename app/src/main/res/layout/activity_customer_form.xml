@@ -77,81 +77,37 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:id="@+id/ll_gender"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="vertical">
 
-        <LinearLayout
-            android:id="@+id/ll_gender"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/gender" />
-
-            <RadioGroup
-                android:id="@+id/rg_gender"
-                android:layout_width="204dp"
-                android:layout_height="match_parent"
-                android:clickable="false"
-                android:focusableInTouchMode="false">
-
-                <RadioButton
-                    android:id="@+id/rb_male"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:checked="true"
-                    android:text="@string/male" />
-
-                <RadioButton
-                    android:id="@+id/rb_female"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/female" />
-
-                <RadioButton
-                    android:id="@+id/rb_other"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/other" />
-            </RadioGroup>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/ll_hobbies"
+        <TextView
             android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/black_list" />
+
+        <RadioGroup
+            android:id="@+id/rg_gender"
+            android:layout_width="204dp"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:clickable="false"
+            android:focusableInTouchMode="false">
 
-            <TextView
-                android:id="@+id/textView3"
+            <RadioButton
+                android:id="@+id/rb_male"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/interests" />
+                android:checked="true"
+                android:text="@string/no" />
 
-            <CheckBox
-                android:id="@+id/cb_music"
+            <RadioButton
+                android:id="@+id/rb_female"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/music" />
+                android:text="@string/yes" />
 
-            <CheckBox
-                android:id="@+id/cb_movies"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/movies" />
-
-            <CheckBox
-                android:id="@+id/cb_videogames"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/videogames" />
-
-        </LinearLayout>
+        </RadioGroup>
 
     </LinearLayout>
 
