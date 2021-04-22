@@ -3,6 +3,7 @@ package com.example.exercicio1topicos;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -31,7 +32,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CustomerFormFragment extends Fragment implements Validator.ValidationListener {
+public class CustomerFormActivity extends AppCompatActivity implements Validator.ValidationListener {
 
     private TextInputLayout txtName;
     private TextInputLayout txtEmail;
@@ -68,19 +69,14 @@ public class CustomerFormFragment extends Fragment implements Validator.Validati
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-    }
+        setContentView(R.layout.activity_customer_form);
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_customer_form, container, false);
-
-        initializeComponents(view);
+        initializeComponents();
 
         this.rgGender.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
-                rbSelectedGender = getView().findViewById(checkedId);
+                rbSelectedGender = findViewById(checkedId);
             }
         });
 
@@ -91,8 +87,6 @@ public class CustomerFormFragment extends Fragment implements Validator.Validati
                 validator.validate();
             }
         });
-
-        return view;
     }
 
     private ArrayList<String> getCheckedHobbies() {
@@ -109,21 +103,21 @@ public class CustomerFormFragment extends Fragment implements Validator.Validati
         return checkedHobbies;
     }
 
-    private void initializeComponents(View view) {
-        txtName = (TextInputLayout) view.findViewById(R.id.txt_name);
-        txtEmail = (TextInputLayout) view.findViewById(R.id.txt_email);
-        txtPhone = (TextInputLayout) view.findViewById(R.id.txt_phone);
-        txtBirthday = (TextInputLayout) view.findViewById(R.id.txt_birthday);
-        etName = (TextInputEditText) view.findViewById(R.id.et_name);
-        etEmail = (TextInputEditText) view.findViewById(R.id.et_email);
-        etPhone = (TextInputEditText) view.findViewById(R.id.et_phone);
-        etBirthday = (TextInputEditText) view.findViewById(R.id.et_birthday);
-        rgGender = (RadioGroup) view.findViewById(R.id.rg_gender);
-        rbSelectedGender = (RadioButton) view.findViewById(R.id.rb_male);
-        cbMusic = (CheckBox) view.findViewById(R.id.cb_music);
-        cbMovies = (CheckBox) view.findViewById(R.id.cb_movies);
-        cbVideogames = (CheckBox) view.findViewById(R.id.cb_videogames);
-        btRegister = (Button) view.findViewById(R.id.bt_register);
+    private void initializeComponents() {
+        txtName = findViewById(R.id.txt_name);
+        txtEmail = findViewById(R.id.txt_email);
+        txtPhone = findViewById(R.id.txt_phone);
+        txtBirthday = findViewById(R.id.txt_birthday);
+        etName = findViewById(R.id.et_name);
+        etEmail = findViewById(R.id.et_email);
+        etPhone = findViewById(R.id.et_phone);
+        etBirthday = findViewById(R.id.et_birthday);
+        rgGender = findViewById(R.id.rg_gender);
+        rbSelectedGender = findViewById(R.id.rb_male);
+        cbMusic = findViewById(R.id.cb_music);
+        cbMovies = findViewById(R.id.cb_movies);
+        cbVideogames = findViewById(R.id.cb_videogames);
+        btRegister = findViewById(R.id.bt_register);
         user = new User();
         userList = new ArrayList<>();
         validator = new Validator(this);
@@ -164,14 +158,22 @@ public class CustomerFormFragment extends Fragment implements Validator.Validati
 
         userList.add(user);
 
-        Snackbar.make(getView(), R.string.customer_register_success , Snackbar.LENGTH_LONG).show();
+        Snackbar.make(getWindow().getDecorView().getRootView(),
+                R.string.customer_register_success ,
+                Snackbar.LENGTH_LONG).show();
+
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("USER_LIST", userList);
+        intent.putExtras(bundle);
+        startActivity(intent);
     }
 
     @Override
     public void onValidationFailed(List<ValidationError> errors) {
         for(ValidationError e:errors) {
             View view = e.getView();
-            String errorMessage = e.getCollatedErrorMessage(getContext());
+            String errorMessage = e.getCollatedErrorMessage(this);
 
             if(view instanceof TextInputEditText){
                 switch (view.getId()){

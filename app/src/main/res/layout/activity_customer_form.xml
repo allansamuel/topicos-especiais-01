@@ -12,7 +12,7 @@
     android:paddingEnd="20dp"
     android:scrollbarAlwaysDrawVerticalTrack="true"
     android:showDividers="middle"
-    tools:context=".CustomerFormFragment">
+    tools:context=".CustomerFormActivity">
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/txt_name"
