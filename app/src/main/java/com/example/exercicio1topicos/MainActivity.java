@@ -4,11 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 
 import android.view.View;
 import android.widget.AdapterView;
@@ -20,10 +17,10 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
 
     private Bundle bundle;
-    private ArrayList<User> userList;
+    private ArrayList<Customer> userList;
     private ListView lvUserList;
     private FloatingActionButton fabAdd;
-    private ArrayAdapter<User> adapterUserList;
+    private ArrayAdapter<Customer> adapterUserList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
     private void initializeComponents() {
         this.bundle = getIntent().getExtras();
         if(bundle != null) {
-            this.userList = (ArrayList<User>) bundle.getSerializable("USER_LIST");
+            this.userList = (ArrayList<Customer>) bundle.getSerializable("USER_LIST");
             this.adapterUserList = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, userList);
             this.lvUserList.setAdapter(adapterUserList);
         }

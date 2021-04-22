@@ -6,12 +6,11 @@ import android.os.Bundle;
 import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 
 public class UserDetailsActivity extends AppCompatActivity {
 
     private Bundle bundle;
-    private User user;
+    private Customer user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,7 +23,7 @@ public class UserDetailsActivity extends AppCompatActivity {
 
     private void initializeComponents() {
         this.bundle = getIntent().getExtras();
-        this.user = (User) bundle.getSerializable("USER_OBJECT");
+        this.user = (Customer) bundle.getSerializable("USER_OBJECT");
     }
 
     private String formatUserDetails() {

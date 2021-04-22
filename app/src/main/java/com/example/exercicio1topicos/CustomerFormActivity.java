@@ -4,17 +4,12 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
 
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.Toast;
 
 import com.github.rtoshiro.util.format.SimpleMaskFormatter;
 import com.github.rtoshiro.util.format.text.MaskTextWatcher;
@@ -61,8 +56,8 @@ public class CustomerFormActivity extends AppCompatActivity implements Validator
     private CheckBox cbMovies;
     private CheckBox cbVideogames;
     private Button btRegister;
-    private User user;
-    private ArrayList<User> userList;
+    private Customer user;
+    private ArrayList<Customer> userList;
 
     private Validator validator;
 
@@ -118,7 +113,7 @@ public class CustomerFormActivity extends AppCompatActivity implements Validator
         cbMovies = findViewById(R.id.cb_movies);
         cbVideogames = findViewById(R.id.cb_videogames);
         btRegister = findViewById(R.id.bt_register);
-        user = new User();
+        user = new Customer();
         userList = new ArrayList<>();
         validator = new Validator(this);
         validator.setValidationListener(this);
