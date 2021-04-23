@@ -4,6 +4,11 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 import android.view.View;
 import android.widget.Button;
@@ -25,10 +30,13 @@ import com.mobsandgeeks.saripaar.annotation.NotEmpty;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class CustomerFormActivity extends AppCompatActivity implements Validator.ValidationListener {
 
+    private Retrofit retrofit;
+    private CustomerService customerService;
     private TextInputLayout txtName;
     private TextInputLayout txtEmail;
     private TextInputLayout txtPhone;
@@ -37,10 +45,6 @@ public class CustomerFormActivity extends AppCompatActivity implements Validator
     @NotEmpty(messageResId = R.string.error_required_field)
     @Length(min = 3, max = 20, messageResId = R.string.error_name_field)
     private TextInputEditText etName;
-
-    @NotEmpty(messageResId = R.string.error_required_field)
-    @Email(messageResId = R.string.error_email_field)
-    private TextInputEditText etEmail;
 
     @NotEmpty(messageResId = R.string.error_required_field)
     @Length(min = 13, max = 13, messageResId = R.string.error_phone_field)
@@ -82,11 +86,9 @@ public class CustomerFormActivity extends AppCompatActivity implements Validator
 
     private void initializeComponents() {
         txtName = findViewById(R.id.txt_name);
-        txtEmail = findViewById(R.id.txt_email);
         txtPhone = findViewById(R.id.txt_phone);
         txtBirthday = findViewById(R.id.txt_birthday);
         etName = findViewById(R.id.et_name);
-        etEmail = findViewById(R.id.et_email);
         etPhone = findViewById(R.id.et_phone);
         etBirthday = findViewById(R.id.et_birthday);
         rgBlackList = findViewById(R.id.rg_gender);
@@ -97,6 +99,12 @@ public class CustomerFormActivity extends AppCompatActivity implements Validator
         validator = new Validator(this);
         validator.setValidationListener(this);
         applyInputMasks();
+
+        this.retrofit = new Retrofit.Builder()
+                .baseUrl(getResources().getString(R.string.base_url))
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        this.customerService = retrofit.create(CustomerService.class);
     }
 
     private void applyInputMasks() {
@@ -111,15 +119,12 @@ public class CustomerFormActivity extends AppCompatActivity implements Validator
 
     private void removeErrors(){
         txtName.setError("");
-        txtEmail.setError("");
         txtPhone.setError("");
         txtBirthday.setError("");
     }
 
-    @Override
-    public void onValidationSucceeded() {
+    private void createCustomer() throws ParseException {
         customer.setName(etName.getText().toString());
-        customer.setEmail(etEmail.getText().toString());
         customer.setPhoneNumber(etPhone.getText().toString());
 
         if(rbSelectedBlackList.getText().toString().equals(R.string.yes)) {
@@ -128,24 +133,42 @@ public class CustomerFormActivity extends AppCompatActivity implements Validator
             customer.setBlackList(false);
         }
 
+        SimpleDateFormat sdf = new SimpleDateFormat(getString(R.string.date_formatter));
+        Date date = sdf.parse(etBirthday.getText().toString());
+        customer.setBirthDateInMillis(date.getTime());
+
+        Date creationDate = new Date();
+        customer.setCreationTimestamp(creationDate.toString());
+
+        customerService.create(customer).enqueue(new Callback<Customer>() {
+            @Override
+            public void onResponse(Call<Customer> call, Response<Customer> response) {
+                Snackbar.make(getWindow().getDecorView().getRootView(),
+                        R.string.customer_register_success ,
+                        Snackbar.LENGTH_LONG).show();
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(intent);
+            }
+
+            @Override
+            public void onFailure(Call<Customer> call, Throwable t) {
+                Snackbar.make(getWindow().getDecorView().getRootView(),
+                        "deu ruim",
+                        Snackbar.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    @Override
+    public void onValidationSucceeded() {
         try {
-            SimpleDateFormat df = new SimpleDateFormat(getString(R.string.date_formatter));
-            customer.setBirthday(df.parse(etBirthday.getText().toString()));
+            createCustomer();
         } catch (ParseException e) {
             e.printStackTrace();
+            Snackbar.make(getWindow().getDecorView().getRootView(),
+                    "deu ruim no parse",
+                    Snackbar.LENGTH_LONG).show();
         }
-
-        userList.add(user);
-
-        Snackbar.make(getWindow().getDecorView().getRootView(),
-                R.string.customer_register_success ,
-                Snackbar.LENGTH_LONG).show();
-
-        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("USER_LIST", userList);
-        intent.putExtras(bundle);
-        startActivity(intent);
     }
 
     @Override
@@ -158,9 +181,6 @@ public class CustomerFormActivity extends AppCompatActivity implements Validator
                 switch (view.getId()){
                     case R.id.et_name:
                         txtName.setError(errorMessage);
-                        break;
-                    case R.id.et_email:
-                        txtEmail.setError(errorMessage);
                         break;
                     case R.id.et_phone:
                         txtPhone.setError(errorMessage);

@@ -35,6 +35,8 @@ public class MainActivity extends AppCompatActivity {
 
         initializeComponents();
 
+        getAllCustomers();
+
         fabAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -52,23 +54,27 @@ public class MainActivity extends AppCompatActivity {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         this.customerService = retrofit.create(CustomerService.class);
+    }
 
-        customerService.getAll().enqueue(new Callback<ArrayList<Customer>>() {
+    private void getAllCustomers() {
+        this.customerService.getAll().enqueue(new Callback<ArrayList<Customer>>() {
             @Override
             public void onResponse(Call<ArrayList<Customer>> call, final Response<ArrayList<Customer>> response) {
                 if(response.isSuccessful()){
-                    customerArrayAdapter = new ArrayAdapter<>(getApplicationContext(),
-                            android.R.layout.simple_list_item_1, response.body());
+                    customerArrayAdapter = new ArrayAdapter<>(
+                            getApplicationContext(),
+                            android.R.layout.simple_list_item_1,
+                            response.body());
                     lvCustomerList.setAdapter(customerArrayAdapter);
 
                     lvCustomerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                            Intent intent = new Intent(getApplicationContext(), UserDetailsActivity.class);
-                            Bundle bundle = new Bundle();
-                            bundle.putSerializable("USER_OBJECT", response.body().get(position));
-                            intent.putExtras(bundle);
-                            startActivity(intent);
+//                            Intent intent = new Intent(getApplicationContext(), UserDetailsActivity.class);
+//                            Bundle bundle = new Bundle();
+//                            bundle.putSerializable("USER_OBJECT", response.body().get(position));
+//                            intent.putExtras(bundle);
+//                            startActivity(intent);
                         }
                     });
                 }else{

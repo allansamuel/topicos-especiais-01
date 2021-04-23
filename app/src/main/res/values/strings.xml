@@ -1,5 +1,5 @@
 <resources>
-    <string name="base_url">http://guisfco-online-shopping-api.herokuapp.com/api/online-shopping/customer</string>
+    <string name="base_url">https://guisfco-online-shopping-api.herokuapp.com/api/online-shopping/</string>
     <string name="date_formatter">dd/MM/yyyy</string>
     <string name="date_mask">NN/NN/NNNN</string>
     <string name="phone_mask">(NN)NNNNNNNNN</string>

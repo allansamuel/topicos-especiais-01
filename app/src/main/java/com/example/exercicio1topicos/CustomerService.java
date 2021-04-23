@@ -16,10 +16,10 @@ public interface CustomerService {
     Call<ArrayList<Customer>> getAll();
 
     @POST("customer/")
-    Call<Customer> create(@Body Customer product);
+    Call<Customer> create(@Body Customer customer);
 
     @PUT("customer/{id}")
-    Call<Customer> update(@Path("id") long id, @Body Customer product);
+    Call<Customer> update(@Path("id") long id, @Body Customer customer);
 
     @DELETE("customer/{id}")
     Call<Void> delete(@Path("id") long id);

@@ -1,37 +1,32 @@
 package com.example.exercicio1topicos;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Date;
 
 public class Customer implements Serializable {
-    private long id;
+    private int id;
     private String name;
-    private String email;
     private String phoneNumber;
     private long birthDateInMillis;
     private boolean blackList;
-    private Timestamp creationTimestamp;
+    private String creationTimestamp;
 
     public Customer() {
     }
 
-    public Customer(long id, String name, String email, String phoneNumber, long birthDateInMillis, boolean blackList, Timestamp creationTimestamp) {
+    public Customer(int id, String name, String phoneNumber, long birthDateInMillis, boolean blackList, String creationTimestamp) {
         this.id = id;
         this.name = name;
-        this.email = email;
         this.phoneNumber = phoneNumber;
         this.birthDateInMillis = birthDateInMillis;
         this.blackList = blackList;
         this.creationTimestamp = creationTimestamp;
     }
 
-    public long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -41,14 +36,6 @@ public class Customer implements Serializable {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 
     public String getPhoneNumber() {
@@ -75,11 +62,11 @@ public class Customer implements Serializable {
         this.blackList = blackList;
     }
 
-    public Timestamp getCreationTimestamp() {
+    public String getCreationTimestamp() {
         return creationTimestamp;
     }
 
-    public void setCreationTimestamp(Timestamp creationTimestamp) {
+    public void setCreationTimestamp(String creationTimestamp) {
         this.creationTimestamp = creationTimestamp;
     }
 
