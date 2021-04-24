@@ -17,6 +17,8 @@
     <string name="movies">Filmes</string>
     <string name="videogames">Jogos</string>
     <string name="register">Cadastrar</string>
+    <string name="edit">Editar</string>
+    <string name="delete">Excluir</string>
     <string name="send">Enviar</string>
     <string name="customer_register_success">O cliente foi cadastrado com sucesso.</string>
     <string name="error_required_field">Campo obrigatório.</string>

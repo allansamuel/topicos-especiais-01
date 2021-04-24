@@ -12,7 +12,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 import android.view.View;
 import android.widget.Button;
-import android.widget.CheckBox;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
@@ -21,42 +21,36 @@ import com.github.rtoshiro.util.format.text.MaskTextWatcher;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
-import com.mobsandgeeks.saripaar.ValidationError;
 import com.mobsandgeeks.saripaar.Validator;
-import com.mobsandgeeks.saripaar.annotation.Email;
-import com.mobsandgeeks.saripaar.annotation.Length;
-import com.mobsandgeeks.saripaar.annotation.NotEmpty;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
-public class CustomerFormActivity extends AppCompatActivity implements Validator.ValidationListener {
+public class CustomerFormActivity extends AppCompatActivity {
+
+    private Bundle bundle;
 
     private Retrofit retrofit;
     private CustomerService customerService;
+
     private TextInputLayout txtName;
-    private TextInputLayout txtEmail;
     private TextInputLayout txtPhone;
     private TextInputLayout txtBirthday;
-
-    @NotEmpty(messageResId = R.string.error_required_field)
-    @Length(min = 3, max = 20, messageResId = R.string.error_name_field)
     private TextInputEditText etName;
-
-    @NotEmpty(messageResId = R.string.error_required_field)
-    @Length(min = 13, max = 13, messageResId = R.string.error_phone_field)
     private TextInputEditText etPhone;
-
-    @NotEmpty(messageResId = R.string.error_required_field)
-    @Length(min = 10, max = 10, messageResId = R.string.error_birthday_field)
     private TextInputEditText etBirthday;
 
     private RadioGroup rgBlackList;
     private RadioButton rbSelectedBlackList;
+    private RadioButton rbBlackListNo;
+    private RadioButton rbBlackListYes;
+
     private Button btRegister;
+    private LinearLayout llExistingCustomer;
+    private Button btDelete;
+    private Button btEdit;
+
     private Customer customer;
 
     private Validator validator;
@@ -68,20 +62,56 @@ public class CustomerFormActivity extends AppCompatActivity implements Validator
 
         initializeComponents();
 
-        this.rgBlackList.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+        rgBlackList.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 rbSelectedBlackList = findViewById(checkedId);
             }
         });
 
-        this.btRegister.setOnClickListener(new View.OnClickListener() {
+        btRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                removeErrors();
-                validator.validate();
+                try {
+                    getCustomerFromForm();
+                    createCustomer();
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
             }
         });
+
+        btDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                try {
+                    getCustomerFromForm();
+                    deleteCustomer();
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        btEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                try {
+                    getCustomerFromForm();
+                    editCustomer();
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    private boolean hasCustomerBundle () {
+        bundle = getIntent().getExtras();
+        if(bundle != null) {
+            return true;
+        }
+        return false;
     }
 
     private void initializeComponents() {
@@ -91,20 +121,43 @@ public class CustomerFormActivity extends AppCompatActivity implements Validator
         etName = findViewById(R.id.et_name);
         etPhone = findViewById(R.id.et_phone);
         etBirthday = findViewById(R.id.et_birthday);
-        rgBlackList = findViewById(R.id.rg_gender);
-        rbSelectedBlackList = findViewById(R.id.rb_male);
-        btRegister = findViewById(R.id.bt_register);
-        customer = new Customer();
 
-        validator = new Validator(this);
-        validator.setValidationListener(this);
+        rgBlackList = findViewById(R.id.rg_gender);
+        rbSelectedBlackList = findViewById(R.id.rb_blacklist_no);
+        rbBlackListNo = findViewById(R.id.rb_blacklist_no);
+        rbBlackListYes = findViewById(R.id.rb_blacklist_yes);
+
+        btRegister = findViewById(R.id.bt_register);
+        llExistingCustomer = findViewById(R.id.ll_existing_customer);
         applyInputMasks();
 
-        this.retrofit = new Retrofit.Builder()
+        retrofit = new Retrofit.Builder()
                 .baseUrl(getResources().getString(R.string.base_url))
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
-        this.customerService = retrofit.create(CustomerService.class);
+        customerService = retrofit.create(CustomerService.class);
+
+        if(hasCustomerBundle()) {
+            customer = (Customer) bundle.getSerializable("CUSTOMER_OBJECT");
+            btRegister.setVisibility(View.INVISIBLE);
+            llExistingCustomer.setVisibility(View.VISIBLE);
+            btDelete = findViewById(R.id.bt_delete);
+            btEdit = findViewById(R.id.bt_edit);
+
+            etName.setText(customer.getName());
+            etPhone.setText(customer.getPhoneNumber());
+
+            Date birthday = new Date(customer.getBirthDateInMillis());
+            etBirthday.setText(birthday.toString());
+
+            if(customer.isBlackList()){
+                rbBlackListYes.setChecked(true);
+            }else{
+                rbBlackListNo.setChecked(true);
+            }
+        }else{
+            customer = new Customer();
+        }
     }
 
     private void applyInputMasks() {
@@ -117,13 +170,7 @@ public class CustomerFormActivity extends AppCompatActivity implements Validator
         etPhone.addTextChangedListener(dateTextWatcher);
     }
 
-    private void removeErrors(){
-        txtName.setError("");
-        txtPhone.setError("");
-        txtBirthday.setError("");
-    }
-
-    private void createCustomer() throws ParseException {
+    private void getCustomerFromForm() throws ParseException {
         customer.setName(etName.getText().toString());
         customer.setPhoneNumber(etPhone.getText().toString());
 
@@ -139,7 +186,9 @@ public class CustomerFormActivity extends AppCompatActivity implements Validator
 
         Date creationDate = new Date();
         customer.setCreationTimestamp(creationDate.toString());
+    }
 
+    private void createCustomer() {
         customerService.create(customer).enqueue(new Callback<Customer>() {
             @Override
             public void onResponse(Call<Customer> call, Response<Customer> response) {
@@ -159,38 +208,37 @@ public class CustomerFormActivity extends AppCompatActivity implements Validator
         });
     }
 
-    @Override
-    public void onValidationSucceeded() {
-        try {
-            createCustomer();
-        } catch (ParseException e) {
-            e.printStackTrace();
-            Snackbar.make(getWindow().getDecorView().getRootView(),
-                    "deu ruim no parse",
-                    Snackbar.LENGTH_LONG).show();
-        }
-    }
-
-    @Override
-    public void onValidationFailed(List<ValidationError> errors) {
-        for(ValidationError e:errors) {
-            View view = e.getView();
-            String errorMessage = e.getCollatedErrorMessage(this);
-
-            if(view instanceof TextInputEditText){
-                switch (view.getId()){
-                    case R.id.et_name:
-                        txtName.setError(errorMessage);
-                        break;
-                    case R.id.et_phone:
-                        txtPhone.setError(errorMessage);
-                        break;
-                    case R.id.et_birthday:
-                        txtBirthday.setError(errorMessage);
-                        break;
-                }
+    private void deleteCustomer() {
+        customerService.delete(customer.getId()).enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(intent);
             }
 
-        }
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                Snackbar.make(getWindow().getDecorView().getRootView(),
+                        "deu ruim",
+                        Snackbar.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    private void editCustomer() {
+        customerService.update(customer.getId(), customer).enqueue(new Callback<Customer>() {
+            @Override
+            public void onResponse(Call<Customer> call, Response<Customer> response) {
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(intent);
+            }
+
+            @Override
+            public void onFailure(Call<Customer> call, Throwable t) {
+                Snackbar.make(getWindow().getDecorView().getRootView(),
+                        "deu ruim",
+                        Snackbar.LENGTH_LONG).show();
+            }
+        });
     }
 }

@@ -70,11 +70,11 @@ public class MainActivity extends AppCompatActivity {
                     lvCustomerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                            Intent intent = new Intent(getApplicationContext(), UserDetailsActivity.class);
-//                            Bundle bundle = new Bundle();
-//                            bundle.putSerializable("USER_OBJECT", response.body().get(position));
-//                            intent.putExtras(bundle);
-//                            startActivity(intent);
+                            Intent intent = new Intent(getApplicationContext(), CustomerFormActivity.class);
+                            Bundle bundle = new Bundle();
+                            bundle.putSerializable("CUSTOMER_OBJECT", response.body().get(position));
+                            intent.putExtras(bundle);
+                            startActivity(intent);
                         }
                     });
                 }else{

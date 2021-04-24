@@ -80,15 +80,16 @@
             android:focusableInTouchMode="false">
 
             <RadioButton
-                android:id="@+id/rb_male"
+                android:id="@+id/rb_blacklist_no"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:checked="true"
                 android:text="@string/no" />
 
             <RadioButton
-                android:id="@+id/rb_female"
+                android:id="@+id/rb_blacklist_yes"
                 android:layout_height="wrap_content"
+                android:checked="false"
                 android:text="@string/yes" />
 
         </RadioGroup>
@@ -101,5 +102,30 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/register" />
+
+    <LinearLayout
+        android:id="@+id/ll_existing_customer"
+        style="@style/Widget.AppCompat.ButtonBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:visibility="invisible">
+
+        <Button
+            android:id="@+id/bt_delete"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/delete" />
+
+        <Button
+            android:id="@+id/bt_edit"
+            style="@style/Widget.AppCompat.Button.Borderless.Colored"
+            android:layout_width="184dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
+            android:text="@string/edit" />
+    </LinearLayout>
 
 </LinearLayout>
