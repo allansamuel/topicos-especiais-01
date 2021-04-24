@@ -1,4 +1,4 @@
-package com.example.exercicio1topicos;
+package com.example.exercicio1topicos.model;
 
 import java.io.Serializable;
 

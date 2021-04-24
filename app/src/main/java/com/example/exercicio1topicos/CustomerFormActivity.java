@@ -16,17 +16,16 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
+import com.example.exercicio1topicos.model.Customer;
+import com.example.exercicio1topicos.service.CustomerService;
 import com.github.rtoshiro.util.format.SimpleMaskFormatter;
 import com.github.rtoshiro.util.format.text.MaskTextWatcher;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
-import com.mobsandgeeks.saripaar.Validator;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 public class CustomerFormActivity extends AppCompatActivity {
@@ -126,7 +125,7 @@ public class CustomerFormActivity extends AppCompatActivity {
         etPhone = findViewById(R.id.et_phone);
         etBirthday = findViewById(R.id.et_birthday);
 
-        rgBlackList = findViewById(R.id.rg_gender);
+        rgBlackList = findViewById(R.id.rg_blacklist);
         rbBlackListNo = findViewById(R.id.rb_blacklist_no);
         rbBlackListYes = findViewById(R.id.rb_blacklist_yes);
         rbSelectedBlackList = findViewById(R.id.rb_blacklist_no);
@@ -144,7 +143,7 @@ public class CustomerFormActivity extends AppCompatActivity {
         customerService = retrofit.create(CustomerService.class);
 
         if(hasCustomerBundle()) {
-            customer = (Customer) bundle.getSerializable("CUSTOMER_OBJECT");
+            customer = (Customer) bundle.getSerializable(getString(R.string.customer_bundle));
             btRegister.setVisibility(View.INVISIBLE);
             llExistingCustomer.setVisibility(View.VISIBLE);
 
@@ -196,9 +195,6 @@ public class CustomerFormActivity extends AppCompatActivity {
         customerService.create(customer).enqueue(new Callback<Customer>() {
             @Override
             public void onResponse(Call<Customer> call, Response<Customer> response) {
-                Snackbar.make(getWindow().getDecorView().getRootView(),
-                        R.string.customer_register_success ,
-                        Snackbar.LENGTH_LONG).show();
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(intent);
             }
@@ -206,7 +202,7 @@ public class CustomerFormActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<Customer> call, Throwable t) {
                 Snackbar.make(getWindow().getDecorView().getRootView(),
-                        "deu ruim",
+                        getString(R.string.error_request),
                         Snackbar.LENGTH_LONG).show();
             }
         });
@@ -223,7 +219,7 @@ public class CustomerFormActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
                 Snackbar.make(getWindow().getDecorView().getRootView(),
-                        "deu ruim",
+                        getString(R.string.error_request),
                         Snackbar.LENGTH_LONG).show();
             }
         });
@@ -240,7 +236,7 @@ public class CustomerFormActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<Customer> call, Throwable t) {
                 Snackbar.make(getWindow().getDecorView().getRootView(),
-                        "deu ruim",
+                        getString(R.string.error_request),
                         Snackbar.LENGTH_LONG).show();
             }
         });

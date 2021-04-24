@@ -1,4 +1,6 @@
-package com.example.exercicio1topicos;
+package com.example.exercicio1topicos.service;
+
+import com.example.exercicio1topicos.model.Customer;
 
 import java.util.ArrayList;
 

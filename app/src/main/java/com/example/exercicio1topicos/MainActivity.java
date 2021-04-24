@@ -3,6 +3,8 @@ package com.example.exercicio1topicos;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.example.exercicio1topicos.model.Customer;
+import com.example.exercicio1topicos.service.CustomerService;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -72,14 +74,14 @@ public class MainActivity extends AppCompatActivity {
                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                             Intent intent = new Intent(getApplicationContext(), CustomerFormActivity.class);
                             Bundle bundle = new Bundle();
-                            bundle.putSerializable("CUSTOMER_OBJECT", response.body().get(position));
+                            bundle.putSerializable(getString(R.string.customer_bundle), response.body().get(position));
                             intent.putExtras(bundle);
                             startActivity(intent);
                         }
                     });
                 }else{
                     Snackbar.make(getWindow().getDecorView().getRootView(),
-                            "response not successful",
+                            getString(R.string.error_response),
                             Snackbar.LENGTH_LONG).show();
                 }
             }
@@ -87,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<ArrayList<Customer>> call, Throwable t) {
                 Snackbar.make(getWindow().getDecorView().getRootView(),
-                        "onfailure",
+                        getString(R.string.error_request),
                         Snackbar.LENGTH_LONG).show();
             }
         });
