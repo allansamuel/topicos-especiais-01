@@ -7,18 +7,18 @@ public class Customer implements Serializable {
     private String name;
     private String phoneNumber;
     private long birthDateInMillis;
-    private boolean blackList;
+    private boolean blacklist;
     private String creationTimestamp;
 
     public Customer() {
     }
 
-    public Customer(int id, String name, String phoneNumber, long birthDateInMillis, boolean blackList, String creationTimestamp) {
+    public Customer(int id, String name, String phoneNumber, long birthDateInMillis, boolean blacklist, String creationTimestamp) {
         this.id = id;
         this.name = name;
         this.phoneNumber = phoneNumber;
         this.birthDateInMillis = birthDateInMillis;
-        this.blackList = blackList;
+        this.blacklist = blacklist;
         this.creationTimestamp = creationTimestamp;
     }
 
@@ -54,12 +54,12 @@ public class Customer implements Serializable {
         this.birthDateInMillis = birthDateInMillis;
     }
 
-    public boolean isBlackList() {
-        return blackList;
+    public boolean isBlacklist() {
+        return blacklist;
     }
 
-    public void setBlackList(boolean blackList) {
-        this.blackList = blackList;
+    public void setBlacklist(boolean blacklist) {
+        this.blacklist = blacklist;
     }
 
     public String getCreationTimestamp() {

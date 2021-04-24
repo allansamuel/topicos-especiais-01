@@ -25,6 +25,8 @@ import com.mobsandgeeks.saripaar.Validator;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 public class CustomerFormActivity extends AppCompatActivity {
@@ -53,7 +55,7 @@ public class CustomerFormActivity extends AppCompatActivity {
 
     private Customer customer;
 
-    private Validator validator;
+    private SimpleDateFormat dateFormat;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -115,6 +117,8 @@ public class CustomerFormActivity extends AppCompatActivity {
     }
 
     private void initializeComponents() {
+        dateFormat = new SimpleDateFormat(getString(R.string.date_formatter));
+
         txtName = findViewById(R.id.txt_name);
         txtPhone = findViewById(R.id.txt_phone);
         txtBirthday = findViewById(R.id.txt_birthday);
@@ -123,12 +127,14 @@ public class CustomerFormActivity extends AppCompatActivity {
         etBirthday = findViewById(R.id.et_birthday);
 
         rgBlackList = findViewById(R.id.rg_gender);
-        rbSelectedBlackList = findViewById(R.id.rb_blacklist_no);
         rbBlackListNo = findViewById(R.id.rb_blacklist_no);
         rbBlackListYes = findViewById(R.id.rb_blacklist_yes);
+        rbSelectedBlackList = findViewById(R.id.rb_blacklist_no);
 
         btRegister = findViewById(R.id.bt_register);
         llExistingCustomer = findViewById(R.id.ll_existing_customer);
+        btDelete = findViewById(R.id.bt_delete);
+        btEdit = findViewById(R.id.bt_edit);
         applyInputMasks();
 
         retrofit = new Retrofit.Builder()
@@ -141,16 +147,15 @@ public class CustomerFormActivity extends AppCompatActivity {
             customer = (Customer) bundle.getSerializable("CUSTOMER_OBJECT");
             btRegister.setVisibility(View.INVISIBLE);
             llExistingCustomer.setVisibility(View.VISIBLE);
-            btDelete = findViewById(R.id.bt_delete);
-            btEdit = findViewById(R.id.bt_edit);
 
             etName.setText(customer.getName());
             etPhone.setText(customer.getPhoneNumber());
 
             Date birthday = new Date(customer.getBirthDateInMillis());
-            etBirthday.setText(birthday.toString());
+            etBirthday.setText(dateFormat.format(birthday));
 
-            if(customer.isBlackList()){
+
+            if(customer.isBlacklist()){
                 rbBlackListYes.setChecked(true);
             }else{
                 rbBlackListNo.setChecked(true);
@@ -174,21 +179,20 @@ public class CustomerFormActivity extends AppCompatActivity {
         customer.setName(etName.getText().toString());
         customer.setPhoneNumber(etPhone.getText().toString());
 
-        if(rbSelectedBlackList.getText().toString().equals(R.string.yes)) {
-            customer.setBlackList(true);
+        if(rbBlackListYes.isChecked()) {
+            customer.setBlacklist(true);
         } else {
-            customer.setBlackList(false);
+            customer.setBlacklist(false);
         }
 
-        SimpleDateFormat sdf = new SimpleDateFormat(getString(R.string.date_formatter));
-        Date date = sdf.parse(etBirthday.getText().toString());
+        Date date = dateFormat.parse(etBirthday.getText().toString());
         customer.setBirthDateInMillis(date.getTime());
-
-        Date creationDate = new Date();
-        customer.setCreationTimestamp(creationDate.toString());
     }
 
     private void createCustomer() {
+        Date creationDate = new Date();
+        customer.setCreationTimestamp(creationDate.toString());
+
         customerService.create(customer).enqueue(new Callback<Customer>() {
             @Override
             public void onResponse(Call<Customer> call, Response<Customer> response) {
